@@ -9,7 +9,6 @@ export class EspecialidadRepository {
             const data = await readFile(this.ruta, "utf-8");
             return JSON.parse(data);
         } catch (error) {
-            console.error("Error al leer el archivo de especialidades:", error);
             return [];
         }
     }

@@ -21,10 +21,14 @@ export class EspecialidadService {
         console.log(`Especialidad con id ${especialidad.id} agregada correctamente.`);
     }
 
-    async buscarEspecialidad(id: number): Promise<Especialidad | undefined> {
+    async buscarEspecialidad(id: number): Promise<Especialidad> {
         validarIdEspecialidad(id);
         const especialidades = await this.repository.obtenerEspecialidades();
-        return especialidades.find(e => e.id === id);
+        const especialidad = especialidades.find(e => e.id === id);
+        if (!especialidad) {
+            throw new Error(`La especialidad con id ${id} no existe.`);
+        }
+        return especialidad;
     }
 
     async actualizarEspecialidad(especialidad: Especialidad): Promise<void> {

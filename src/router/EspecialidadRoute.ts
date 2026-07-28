@@ -14,7 +14,7 @@ export async function especialidadRoute(req: IncomingMessage, res: ServerRespons
         return;
     }
 
-    if (metodo === "GET" && url === "/especialidades/buscar/") {
+    if (metodo === "GET" && url.startsWith("/especialidades/buscar/")) {
         try {
             const id = Number(url.split("/")[3]);
             const especialidad = await especialidadService.buscarEspecialidad(id);
@@ -22,46 +22,59 @@ export async function especialidadRoute(req: IncomingMessage, res: ServerRespons
             res.end(JSON.stringify(especialidad));
         } catch (error) {
             res.writeHead(404);
-            res.end(JSON.stringify({ error: "Especialidad no encontrada" }));
+            res.end(JSON.stringify({ mensaje: (error as Error).message }));
         }
         return;
     }
 
     if (metodo === "POST" && url === "/especialidades/agregar") {
         let body = "";
-        req.on("data", (chunk) => {
+        req.on("data", chunk => {
             body += chunk;
         });
         req.on("end", async () => {
-            const datos = JSON.parse(body);
-            const nuevaEspecialidad = await especialidadService.agregarEspecialidad(datos);
-            res.writeHead(201);
-            res.end(JSON.stringify(nuevaEspecialidad));
+            try {
+                const datos = JSON.parse(body);
+                await especialidadService.agregarEspecialidad(datos);
+                res.writeHead(201);
+                res.end(JSON.stringify({ mensaje: "Especialidad agregada correctamente." }));
+            } catch (error) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ mensaje: (error as Error).message }));
+            }
         });
+        return;
     }
 
     if (metodo === "PUT" && url === "/especialidades/actualizar") {
         let body = "";
-        req.on("data", (chunk) => {
+        req.on("data", chunk => {
             body += chunk;
         });
         req.on("end", async () => {
-            const datos = JSON.parse(body);
-            const especialidadActualizada = await especialidadService.actualizarEspecialidad(datos);
-            res.writeHead(200);
-            res.end(JSON.stringify(especialidadActualizada));
+            try {
+                const datos = JSON.parse(body);
+                await especialidadService.actualizarEspecialidad(datos);
+                res.writeHead(200);
+                res.end(JSON.stringify({ mensaje: "Especialidad actualizada correctamente." }));
+            } catch (error) {
+                res.writeHead(400);
+                res.end(JSON.stringify({ mensaje: (error as Error).message }));
+            }
         });
+        return;
     }
 
-    if (metodo === "DELETE" && url === "/especialidades/eliminar/") {
+    if (metodo === "DELETE" && url.startsWith("/especialidades/eliminar/")) {
         try {
             const id = Number(url.split("/")[3]);
             await especialidadService.eliminarEspecialidad(id);
             res.writeHead(200);
-            res.end(JSON.stringify({ message: "Especialidad eliminada correctamente" }));
+            res.end(JSON.stringify({ mensaje: "Especialidad eliminada correctamente." }));
         } catch (error) {
             res.writeHead(404);
-            res.end(JSON.stringify({ error: "Especialidad no encontrada" }));
+            res.end(JSON.stringify({ mensaje: (error as Error).message }));
         }
+        return;
     }
 }
