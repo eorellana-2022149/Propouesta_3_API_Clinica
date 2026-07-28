@@ -1,0 +1,30 @@
+{
+  "name": "Propouesta_3_API_Clinica",
+  "version": "1.0.0",
+  "description": "Ejercicio de clase en linea",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx src/Index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Efren Orellana",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.2",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/prompt-sync": "^4.2.3",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
