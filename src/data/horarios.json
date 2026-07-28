@@ -1,0 +1,9 @@
+[
+    {
+        "id": 1,
+        "idMedico": 1,
+        "dia": "Lunes",
+        "horaInicio": "07:00",
+        "horaFin": "11:00"
+    }
+]
