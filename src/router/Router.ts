@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { especialidadRoute } from "./EspecialidadRoute.js";
+import { pacienteRoute } from "./PacienteRoute.js";
 
 export async function router(req: IncomingMessage, res: ServerResponse) {
     res.setHeader("Content-Type", "application/json");
@@ -11,7 +12,12 @@ export async function router(req: IncomingMessage, res: ServerResponse) {
             await especialidadRoute(req, res);
             return;
         }
-        
+
+        if (url.startsWith("/pacientes")) {
+            await pacienteRoute(req, res);
+            return;
+        }
+
         res.writeHead(404);
         res.end(JSON.stringify({
             mensaje: "Ruta no encontrada."
