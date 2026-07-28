@@ -1,10 +1,17 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { especialidadRoute } from "./EspecialidadRoute.js";
 
 export async function router(req: IncomingMessage, res: ServerResponse) {
     res.setHeader("Content-Type", "application/json");
     const url = req.url ?? "";
     const metodo = req.method ?? "";
     try {
+
+        if (url.startsWith("/especialidades")) {
+            await especialidadRoute(req, res);
+            return;
+        }
+        
         res.writeHead(404);
         res.end(JSON.stringify({
             mensaje: "Ruta no encontrada."
