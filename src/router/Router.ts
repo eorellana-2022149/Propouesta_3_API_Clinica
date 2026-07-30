@@ -4,6 +4,7 @@ import { pacienteRoute } from "./PacienteRoute.js";
 import { medicoRoute } from "./MedicoRoute.js";
 import { horarioRoute } from "./HorarioRoute.js";
 import { citaRoute } from "./CitaRoute.js";
+import { consultaRoute } from "./ConsultaRoute.js";
 
 export async function router(req: IncomingMessage, res: ServerResponse) {
     res.setHeader("Content-Type", "application/json");
@@ -36,6 +37,10 @@ export async function router(req: IncomingMessage, res: ServerResponse) {
             return;
         }
 
+        if (url.startsWith("/consultas")) {
+            await consultaRoute(req, res);
+            return;
+        }
 
         res.writeHead(404);
         res.end(JSON.stringify({
