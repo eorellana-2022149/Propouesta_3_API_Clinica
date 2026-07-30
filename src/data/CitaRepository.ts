@@ -3,13 +3,12 @@ import { Cita } from "../models/Cita.js";
 
 export class CitaRepository {
     private ruta = "./src/data/citas.json";
-
+    
     async obtenerCitas(): Promise<Cita[]> {
         try {
             const data = await readFile(this.ruta, "utf-8");
             return JSON.parse(data);
         } catch (error) {
-            console.error("Error al leer las citas.");
             return [];
         }
     }
